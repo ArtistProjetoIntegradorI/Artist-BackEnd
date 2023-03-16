@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id    String  @id @default(uuid())
+  name  String
+  phone String?
+  type  String
+}
+
+model Category {
+  id        String     @id @default(uuid())
+  name      String
+  medicines Medicine[]
+}
+
+model Medicine {
+  id                String  @id @default(uuid())
+  name              String
+  description       String?
+  price             Float
+  stock             Int
+  imageUri          String?
+  needsPrescription Boolean @default(false)
+  prescription      String?
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+}
