@@ -1,16 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./database/dev.db"
 }
-
 
 model Category {
-  id        String     @id @default(uuid())
-  name      String
+  id   String @id @default(uuid())
+  name String
+  type String
+
+  @@map("category")
 }
 
+model User_Category {
+  userId     String @map("user_id")
+  categoryId String @map("category_id")
 
+  @@id([userId, categoryId])
+  @@map("user_category")
+}
+
+model User {
+  id            String  @id @default(uuid())
+  name          String
+  username      String
+  password      String
+  status        Boolean @default(true)
+  user_type     String
+  document      String? @unique
+  email         String? @unique
+  profile_image String?
+  cel_phone     String?
+
+  addressId String?  @map("address_id")
+  address   Address? @relation(fields: [addressId], references: [id])
+
+  @@map("user")
+}
+
+model Address {
+  id           String  @id @default(uuid())
+  street       String
+  neighborhood String
+  number       String
+  contry       String
+  lat          String?
+  long         String?
+  zip_code     String
+
+  user User[]
+
+  @@map("address")
+}

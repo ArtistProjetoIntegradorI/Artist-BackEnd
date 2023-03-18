@@ -4,17 +4,18 @@ import categoriesRepository from "../repositories/categories.repository";
 
 class CategoriesController {
   async create(request: Request, response: Response) {
-    const { name } = request.body;
+    const { name, type } = request.body;
 
-    if (!name) {
+    if (!name || !type) {
       const missingFields = [];
 
       if (!name) missingFields.push("name");
+      if (!type) missingFields.push("type");
 
       throw new AppError(`Um ou mais campos não enviados: ${missingFields.join(", ")}`);
     }
 
-    const category = await categoriesRepository.create({ name });
+    const category = await categoriesRepository.create({ name, type });
 
     return response.status(201).json(category);
   }
@@ -33,7 +34,7 @@ class CategoriesController {
     const category = await categoriesRepository.findById(id);
 
     if (!category) {
-      throw new AppError("Categoria não encontrado", 404);
+      throw new AppError("Categoria não encontrada", 404);
     }
 
     return response.json(category);
@@ -41,7 +42,7 @@ class CategoriesController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name } = request.body;
+    const { name, type } = request.body;
 
     const stored = await categoriesRepository.findById(id);
 
@@ -49,7 +50,22 @@ class CategoriesController {
       throw new AppError("Categoria não encontrada", 404);
     }
 
-    const category = await categoriesRepository.update(id, { name });
+    const category = await categoriesRepository.update(id, { name, type });
+
+    return response.json(category);
+  }
+
+  async delete(request: Request, response: Response) {
+    const { id } = request.params;
+    const { name, type } = request.body;
+
+    const stored = await categoriesRepository.findById(id);
+
+    if (!stored) {
+      throw new AppError("Categoria não encontrada", 404);
+    }
+
+    const category = await categoriesRepository.delete(id, { name, type });
 
     return response.json(category);
   }

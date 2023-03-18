@@ -2,6 +2,7 @@ import { prisma } from "../infra/prisma/connection";
 
 interface CategoryProps {
   name: string;
+  type: "artist" | "event";
 }
 
 interface FindAllProps {
@@ -45,6 +46,16 @@ class CategoriesRepository {
         id,
       },
       data: category,
+    });
+
+    return stored;
+  }
+
+  async delete(id: string, category: CategoryProps) {
+    const stored = await prisma.category.delete({
+      where: {
+        id,
+      }
     });
 
     return stored;
