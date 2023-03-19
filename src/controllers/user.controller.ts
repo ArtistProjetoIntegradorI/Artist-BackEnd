@@ -18,7 +18,6 @@ class UserController {
       throw new AppError(`Um ou mais campos não enviados: ${missingFields.join(", ")}`);
     }
 
-    
     const user = await userRepository.create({ name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId });
 
     return response.status(201).json(user);
@@ -65,7 +64,7 @@ class UserController {
     const stored = await userRepository.findById(id);
 
     if (!stored) {
-      throw new AppError("Categoria não encontrada", 404);
+      throw new AppError("Usuario não encontrado", 404);
     }
 
     const user = await userRepository.delete(id);

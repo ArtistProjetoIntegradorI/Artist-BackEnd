@@ -1,11 +1,10 @@
-import { Address } from "@prisma/client";
 import { prisma } from "../infra/prisma/connection";
 
 interface UserProps {
   name: string;
   username: string;
   password: string;
-  status: string;
+  status: boolean;
   user_type: string;
   document?: string;
   email?: string;
@@ -30,7 +29,7 @@ class UserRepository {
   }
 
   async findAll({ search, user_type }: FindAllProps) {
-    const categories = await prisma.user.findMany({
+    const users = await prisma.user.findMany({
       where: {
         name: {
           contains: search,
@@ -41,7 +40,7 @@ class UserRepository {
       },
     });
 
-    return categories;
+    return users;
   }
 
   async findById(id: string) {

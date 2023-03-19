@@ -1,6 +1,7 @@
 import { Router } from "express";
 import categoriesController from "./controllers/categories.controller";
 import userController from "./controllers/user.controller";
+import addressController from "./controllers/address.controller";
 
 const router = Router();
 
@@ -26,5 +27,10 @@ router.get("/user/:id", userController.findById);
 router.put("/user/:id", userController.update);
 router.delete("/user/:id", userController.delete);
 
+//Address
+router.post("/address", addressController.create);
+router.get("/address/:id", addressController.findById);
+router.put("/address/:id", addressController.update);
+router.delete("/address/:id", addressController.delete);
 
 export { router };

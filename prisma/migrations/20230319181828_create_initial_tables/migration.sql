@@ -19,14 +19,14 @@ CREATE TABLE "user" (
     "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "status" TEXT NOT NULL,
+    "status" BOOLEAN NOT NULL DEFAULT true,
     "user_type" TEXT NOT NULL,
     "document" TEXT,
     "email" TEXT,
     "profile_image" TEXT,
     "cel_phone" TEXT,
-    "address_id" TEXT NOT NULL,
-    CONSTRAINT "user_address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "address" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "address_id" TEXT,
+    CONSTRAINT "user_address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "address" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -36,10 +36,14 @@ CREATE TABLE "address" (
     "neighborhood" TEXT NOT NULL,
     "number" TEXT NOT NULL,
     "contry" TEXT NOT NULL,
-    "lat" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "lat" TEXT,
     "long" TEXT,
-    "zip_code" TEXT
+    "zip_code" TEXT NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "user_username_key" ON "user"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "user_document_key" ON "user"("document");
