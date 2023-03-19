@@ -47,7 +47,7 @@ class UserRepository {
     const user = await prisma.user.findUnique({
       where: {
         id,
-      },
+      }
     });
 
     return user;

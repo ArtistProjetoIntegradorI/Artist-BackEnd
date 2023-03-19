@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { AppError } from "../handlers/errors.handler";
 import userRepository from "../repositories/user.repository";
+import userCategoriesRepository from "../repositories/user_categories.repository";
 
 class UserController {
   async create(request: Request, response: Response) {
-    const { name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId } = request.body;
+    const { name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId, categories } = request.body;
 
                   
     if (!name || !username || !password || !user_type ) {
@@ -19,6 +20,15 @@ class UserController {
     }
 
     const user = await userRepository.create({ name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId });
+
+    if (categories && Array.isArray(categories)){
+        categories.forEach((el) => {
+          userCategoriesRepository.create({
+            category: el,
+            user: user.id
+          })
+        });
+    }
 
     return response.status(201).json(user);
   }
