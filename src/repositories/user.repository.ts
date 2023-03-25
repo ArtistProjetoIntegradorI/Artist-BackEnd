@@ -37,7 +37,15 @@ class UserRepository {
         user_type: {
           equals: user_type,
         },
-      },
+      },      
+      include:{
+        categories: {
+          include:{
+            category:true
+          }
+        },
+        ratings: true
+      }
     });
 
     return users;
@@ -47,6 +55,14 @@ class UserRepository {
     const user = await prisma.user.findUnique({
       where: {
         id,
+      },
+      include:{
+        categories: {
+          include:{
+            category:true
+          }
+        },
+        ratings: true
       }
     });
 

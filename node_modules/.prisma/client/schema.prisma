@@ -15,6 +15,8 @@ model Category {
   name String
   type String
 
+  categories User_Category[]
+
   @@map("category")
 }
 
@@ -22,8 +24,12 @@ model User_Category {
   userId     String @map("user_id")
   categoryId String @map("category_id")
 
+  user User  @relation(fields: [userId], references: [id])
+  category Category  @relation(fields: [categoryId], references: [id])
+
   @@id([userId, categoryId])
   @@map("user_category")
+
 }
 
 model User {
@@ -40,6 +46,10 @@ model User {
 
   addressId String?  @map("address_id")
   address   Address? @relation(fields: [addressId], references: [id])
+
+  categories User_Category[]
+
+  ratings Rating[]
 
   @@map("user")
 }
@@ -58,4 +68,15 @@ model Address {
   user User[]
 
   @@map("address")
+}
+
+model Rating {
+  id           String  @id @default(uuid())
+  value        Int   
+  userRate     String  
+
+  userId String?  @map("user_id")
+  user   User? @relation(fields: [userId], references: [id])
+
+  @@map("rating")
 }
