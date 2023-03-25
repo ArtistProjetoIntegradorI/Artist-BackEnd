@@ -21,5 +21,5 @@ export function getIPAddress() {
     }
   }
 
-  return ip;
+  return !ip ? 'localhost' : ip;
 }
