@@ -3,6 +3,7 @@ import categoriesController from "./controllers/categories.controller";
 import userController from "./controllers/user.controller";
 import addressController from "./controllers/address.controller";
 import ratingController from "./controllers/rating.controller";
+import socialController from "./controllers/social.controller";
 
 const router = Router();
 
@@ -36,5 +37,12 @@ router.delete("/address/:id", addressController.delete);
 
 //Rating
 router.post("/rating", ratingController.create); 
+
+//Social
+router.post("/social", socialController.create);
+router.get("/social", socialController.findAll);
+router.get("/social/:id", socialController.findById);
+router.put("/social/:id", socialController.update);
+router.delete("/social/:id", socialController.delete);
 
 export { router };

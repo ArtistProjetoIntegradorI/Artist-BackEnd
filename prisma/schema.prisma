@@ -51,6 +51,8 @@ model User {
 
   ratings Rating[]
 
+  social User_Social[]
+
   @@map("user")
 }
 
@@ -80,3 +82,24 @@ model Rating {
 
   @@map("rating")
 }
+
+model Social {
+  id           String  @id @default(uuid())
+  name         String   
+  
+  userSocial User_Social[]
+}
+
+model User_Social {
+  userId     String @map("user_id")
+  socialId String @map("social_id")
+  url        String 
+
+  user User  @relation(fields: [userId], references: [id])
+  social Social  @relation(fields: [socialId], references: [id])
+
+  @@id([userId, socialId])
+  @@map("user_social")
+
+}
+

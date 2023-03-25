@@ -2,10 +2,11 @@ import { Request, Response } from "express";
 import { AppError } from "../handlers/errors.handler";
 import userRepository from "../repositories/user.repository";
 import userCategoriesRepository from "../repositories/user_categories.repository";
+import userSocialRepository from "../repositories/user_social.repository";
 
 class UserController {
   async create(request: Request, response: Response) {
-    const { name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId, categories } = request.body;
+    const { name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId, categories, social } = request.body;
 
                   
     if (!name || !username || !password || !user_type ) {
@@ -29,6 +30,16 @@ class UserController {
           })
         });
     }
+
+    if (social && Array.isArray(social)){
+      social.forEach((el) => {
+        userSocialRepository.create({
+          social: el.social,
+          url: el.url,
+          user: user.id
+        })
+      });
+  }
 
     return response.status(201).json(user);
   }

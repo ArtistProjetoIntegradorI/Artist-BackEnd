@@ -44,7 +44,12 @@ class UserRepository {
             category:true
           }
         },
-        ratings: true
+        ratings: true,
+        social:{
+          include:{
+            social: true
+          }
+        }
       }
     });
 
@@ -62,8 +67,13 @@ class UserRepository {
             category:true
           }
         },
-        ratings: true
-      }
+        ratings: true,
+        social: {
+          include:{
+            social:true
+          }
+        },
+      },
     });
 
     return user;
