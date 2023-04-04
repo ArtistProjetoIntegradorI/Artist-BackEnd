@@ -79,6 +79,16 @@ class UserRepository {
     return user;
   }
 
+  async findByUsername(username: string) {
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+      }
+    });
+
+    return user;
+  }
+
   async update(id: string, user: UserProps) {
     const stored = await prisma.user.update({
       where: {

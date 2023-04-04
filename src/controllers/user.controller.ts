@@ -3,6 +3,7 @@ import { AppError } from "../handlers/errors.handler";
 import userRepository from "../repositories/user.repository";
 import userCategoriesRepository from "../repositories/user_categories.repository";
 import userSocialRepository from "../repositories/user_social.repository";
+import {generateToken} from '../utils/jsonwebtoken.util'
 
 class UserController {
   async create(request: Request, response: Response) {
@@ -42,6 +43,34 @@ class UserController {
   }
 
     return response.status(201).json(user);
+  }
+
+  async login(request: Request, response: Response) {
+    const {username, password} = request.body;
+
+                  
+    if ( !username || !password  ) {
+      const missingFields = [];
+
+      if (!username) missingFields.push("username");
+      if (!password) missingFields.push("password");
+
+      throw new AppError(`Um ou mais campos não enviados: ${missingFields.join(", ")}`);
+    }
+    
+    const user = await userRepository.findByUsername(username);
+
+    if (!user) {
+      throw new AppError("Usuario não encontrado", 404);
+    }
+
+    if (user.password != password ) {
+      throw new AppError("Usuario ou senha invalidos!", 401);
+    }
+
+    const token = await generateToken(user.id);
+
+    return response.status(200).json(token);
   }
 
   async findAll(request: Request, response: Response) {

@@ -22,6 +22,9 @@ router.get("/categories/:id", categoriesController.findById);
 router.put("/categories/:id", categoriesController.update);
 router.delete("/categories/:id", categoriesController.delete);
 
+//Login
+router.get("/login", userController.login);
+
 //User
 router.post("/user", userController.create);
 router.get("/user", userController.findAll);
