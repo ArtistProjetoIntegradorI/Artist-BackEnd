@@ -70,7 +70,13 @@ class UserController {
 
     const token = await generateToken(user);
 
-    return response.status(200).json(token);
+    var retorno = new Object({
+      "name":user.name,
+      "user_type":user.user_type,
+      "token": token
+    });
+
+    return response.status(200).json(retorno);
   }
 
   async findAll(request: Request, response: Response) {
