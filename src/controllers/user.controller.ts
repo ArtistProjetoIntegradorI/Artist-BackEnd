@@ -68,7 +68,7 @@ class UserController {
       throw new AppError("Usuario ou senha invalidos!", 401);
     }
 
-    const token = await generateToken(user.id);
+    const token = await generateToken(user);
 
     return response.status(200).json(token);
   }
