@@ -35,7 +35,7 @@ class UserController {
     if (social && Array.isArray(social)){
       social.forEach((el) => {
         userSocialRepository.create({
-          social: el.social,
+          social: el.id,
           url: el.url,
           user: user.id
         })
