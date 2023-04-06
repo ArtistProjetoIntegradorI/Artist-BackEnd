@@ -1,4 +1,5 @@
 import { Router } from "express";
+import {ensureAuthentication} from "./middlewares/authentication.handler";
 import categoriesController from "./controllers/categories.controller";
 import userController from "./controllers/user.controller";
 import addressController from "./controllers/address.controller";
@@ -27,8 +28,8 @@ router.get("/login", userController.login);
 
 //User
 router.post("/user", userController.create);
-router.get("/user", userController.findAll);
-router.get("/user/:id", userController.findById);
+router.get("/user", ensureAuthentication, userController.findAll);
+router.get("/user/:id", ensureAuthentication, userController.findById);
 router.put("/user/:id", userController.update);
 router.delete("/user/:id", userController.delete);
 
