@@ -35,7 +35,7 @@ class UserController {
     if (social && Array.isArray(social)){
       social.forEach((el) => {
         userSocialRepository.create({
-          social: el.social,
+          social: el.id,
           url: el.url,
           user: user.id
         })
@@ -68,9 +68,15 @@ class UserController {
       throw new AppError("Usuario ou senha invalidos!", 401);
     }
 
-    const token = await generateToken(user.id);
+    const token = await generateToken(user);
 
-    return response.status(200).json(token);
+    var retorno = new Object({
+      "name":user.name,
+      "user_type":user.user_type,
+      "token": token
+    });
+
+    return response.status(200).json(retorno);
   }
 
   async findAll(request: Request, response: Response) {
