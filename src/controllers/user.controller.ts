@@ -61,7 +61,7 @@ class UserController {
     const user = await userRepository.findByUsername(username);
 
     if (!user) {
-      throw new AppError("Usuario não encontrado", 404);
+      throw new AppError("Usuario não encontrado", 401);
     }
 
     if (user.password != password ) {
