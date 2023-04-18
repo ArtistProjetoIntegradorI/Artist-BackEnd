@@ -11,6 +11,7 @@ interface AddressProps {
   long: string;
   zip_code: string;
   user?: string;
+  event?: string;
 }
 
 class AddressRepository {
@@ -29,7 +30,30 @@ class AddressRepository {
           connect :{
             id: address.user
           }
+        },
+        event:{
+          connect:{
+            id: address.event
+          }
         }
+      },
+      
+    });
+
+    return stored;
+  }
+
+  async createForEvent(address: AddressProps) {
+    const stored = await prisma.address.create({
+      data: {
+        city: address.city,
+        street: address.street,
+        neighborhood: address.neighborhood,
+        number: address.number,
+        contry: address.contry,      
+        lat: address.lat,
+        long:address.long,
+        zip_code: address.zip_code
       },
       
     });

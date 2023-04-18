@@ -17,6 +17,8 @@ model Category {
 
   categories User_Category[]
 
+  event_categories Event_Category[]
+
   @@map("category")
 }
 
@@ -31,6 +33,7 @@ model User_Category {
   @@map("user_category")
 
 }
+
 
 model User {
   id            String  @id @default(uuid())
@@ -53,6 +56,10 @@ model User {
 
   social User_Social[]
 
+  events Event[]
+
+  event_artist Event_Artist[]
+
   @@map("user")
 }
 
@@ -68,6 +75,7 @@ model Address {
   zip_code     String
 
   user User[]
+  event Event[]
 
   @@map("address")
 }
@@ -103,3 +111,45 @@ model User_Social {
 
 }
 
+model Event_Category {
+  eventId     String @map("event_id")
+  categoryId  String @map("category_id")
+
+  event Event  @relation(fields: [eventId], references: [id])
+  category Category  @relation(fields: [categoryId], references: [id])
+
+  @@id([eventId, categoryId])
+  @@map("event_category")
+
+}
+
+model Event_Artist {
+  eventId     String @map("event_id")
+  artistId  String @map("artist_id")
+
+  event Event  @relation(fields: [eventId], references: [id])
+  artist User  @relation(fields: [artistId], references: [id])
+
+  @@id([eventId, artistId])
+  @@map("event_artist")
+
+}
+
+model Event {
+  id                String  @id @default(uuid())
+  name            String   
+  description       String
+  dh_event          DateTime
+  dh_expiration     DateTime   
+
+  userOwnerId String?  @map("user_owner_id")
+  user   User? @relation(fields: [userOwnerId], references: [id])
+
+  addressId String?  @map("address_id")
+  address   Address? @relation(fields: [addressId], references: [id])
+
+  category Event_Category[]
+  event_artist Event_Artist[]
+
+  @@map("event")
+}

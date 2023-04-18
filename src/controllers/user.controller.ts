@@ -110,7 +110,8 @@ class UserController {
     var retorno = new Object({
       "name": user.name,
       "user_type": user.user_type,
-      "token": token
+      "token": token,
+      "user_id": user.id
     });
 
     return response.status(200).json(retorno);

@@ -5,6 +5,7 @@ import userController from "./controllers/user.controller";
 import addressController from "./controllers/address.controller";
 import ratingController from "./controllers/rating.controller";
 import socialController from "./controllers/social.controller";
+import eventController from "./controllers/event.controller";
 
 const router = Router();
 
@@ -28,10 +29,18 @@ router.post("/login", userController.login);
 
 //User
 router.post("/user", userController.create);
-router.get("/user", ensureAuthentication, userController.findAll);
-router.get("/user/:id", ensureAuthentication, userController.findById);
+router.get("/user", userController.findAll);
+router.get("/user/:id", userController.findById);
 router.put("/user/:id", userController.update);
 router.delete("/user/:id", userController.delete);
+
+
+//Event
+router.post("/event", eventController.create);
+router.get("/events/:id", eventController.findAll);
+router.get("/event/:id", eventController.findById);
+router.put("/event/:id", eventController.update);
+router.delete("/event/:id", eventController.delete);
 
 //Address
 router.post("/address", addressController.create);
