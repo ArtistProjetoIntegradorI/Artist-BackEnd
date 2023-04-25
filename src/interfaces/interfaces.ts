@@ -9,3 +9,10 @@ interface AddressProps {
     zip_code: string;
     user?: string;
   }
+
+  interface MediaProps {
+    name: string;
+    path: string;
+    post?: string;
+  }
+   

@@ -6,6 +6,7 @@ import addressController from "./controllers/address.controller";
 import ratingController from "./controllers/rating.controller";
 import socialController from "./controllers/social.controller";
 import eventController from "./controllers/event.controller";
+import postController from "./controllers/post.controller";
 
 const router = Router();
 
@@ -41,6 +42,15 @@ router.get("/events/:id", eventController.findAll);
 router.get("/event/:id", eventController.findById);
 router.put("/event/:id", eventController.update);
 router.delete("/event/:id", eventController.delete);
+
+
+//Post
+router.post("/post", postController.create);
+router.get("/post", postController.findAll);
+router.get("/post/:id", postController.findById);
+router.put("/post/:id", postController.update);
+router.delete("/post/:id", postController.delete);
+
 
 //Address
 router.post("/address", addressController.create);
