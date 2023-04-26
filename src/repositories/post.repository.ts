@@ -69,6 +69,11 @@ class PostRepository {
       where: {
         id,
       },
+      include:{
+        event:true,
+        medias:true,
+        user:true
+      } 
     });
 
     return post;

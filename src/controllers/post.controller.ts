@@ -97,10 +97,10 @@ class PostController {
     return response.json(post);
   }
 }
-
-async function createMedias(medias:Express.Multer.File[], post: string){
+ function createMedias(medias:Express.Multer.File[], post: string){
     
   const retMedias = [];
+
 
   for (const file of medias) {
     const med = mediaRepository.create({
