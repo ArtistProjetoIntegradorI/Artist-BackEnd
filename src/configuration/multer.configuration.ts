@@ -7,7 +7,7 @@ const local = multer.diskStorage({
         callback(null, destinationPath)
     },
     filename: (request, file, callback) => {
-        callback(null, file.originalname)
+        callback(null,  Date.now() + '_' + file.originalname.trim().toLowerCase())
     }
 })
 
