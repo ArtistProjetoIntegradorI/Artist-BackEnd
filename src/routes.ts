@@ -8,6 +8,9 @@ import socialController from "./controllers/social.controller";
 import eventController from "./controllers/event.controller";
 import postController from "./controllers/post.controller";
 
+import multer from "multer";
+import { multerConfiguration } from "./configuration/multer.configuration";
+
 const router = Router();
 
 router.get("/", (_request, response) => {
@@ -45,7 +48,9 @@ router.delete("/event/:id", eventController.delete);
 
 
 //Post
-router.post("/post", postController.create);
+router.post("/post", multer(multerConfiguration).array("assets"), postController.create);
+
+
 router.get("/post", postController.findAll);
 router.get("/post/:id", postController.findById);
 router.put("/post/:id", postController.update);

@@ -12,7 +12,7 @@ class PostController {
     const event = request.body.event;
     const user = request.body.user;
 
-    const media = request.files as Express.Multer.File[];
+    const assets = request.files as Express.Multer.File[];
 
     console.log(request)
 
@@ -30,8 +30,8 @@ class PostController {
     if(event){
       const post = await postRepository.createEv({ description:description, dh_create: new Date(), userOwnerId:user, eventId:event });
 
-      if(post && media){
-          const medias = createMedias(media, post.id);
+      if(post && assets){
+          const medias = createMedias(assets, post.id);
       }
 
       return response.status(201).json(post);
@@ -39,8 +39,8 @@ class PostController {
       
       const post = await postRepository.create({ description:description, dh_create: new Date(), userOwnerId:user });
       
-      if(post && media){
-        const medias = createMedias(media, post.id);
+      if(post && assets){
+        const medias = createMedias(assets, post.id);
       }
 
       return response.status(201).json(post);
@@ -62,7 +62,7 @@ class PostController {
     const post = await postRepository.findById(id);
 
     if (!post) {
-      throw new AppError("Usuario não encontrado", 404);
+      throw new AppError("Post não encontrado", 404);
     }
 
     return response.json(post);
@@ -75,7 +75,7 @@ class PostController {
     const stored = await postRepository.findById(id);
 
     if (!stored) {
-      throw new AppError("Usuario não encontrado", 404);
+      throw new AppError("Post não encontrado", 404);
     }
 
     const post = await postRepository.update(id, {description, eventId});
@@ -89,7 +89,7 @@ class PostController {
     const stored = await postRepository.findById(id);
 
     if (!stored) {
-      throw new AppError("Usuario não encontrado", 404);
+      throw new AppError("Post não encontrado", 404);
     }
 
     const post = await postRepository.delete(id);
@@ -102,17 +102,7 @@ async function createMedias(medias:Express.Multer.File[], post: string){
     
   const retMedias = [];
 
-  const fs = require('fs');
-  const path = require('path');
-
-  const mediaDir = path.join('./', 'media');
-  fs.ensureDirSync(mediaDir);
-
   for (const file of medias) {
-    const fileName = path.basename(file.path);
-    const filePath = path.join(mediaDir, fileName);
-    fs.writeFileSync(filePath, file.path);
-  
     const med = mediaRepository.create({
       name: file.filename,
       path: file.path,
