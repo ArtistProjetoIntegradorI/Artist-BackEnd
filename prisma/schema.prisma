@@ -60,6 +60,8 @@ model User {
 
   event_artist Event_Artist[]
 
+  post Post[]
+
   @@map("user")
 }
 
@@ -150,6 +152,36 @@ model Event {
 
   category Event_Category[]
   event_artist Event_Artist[]
+  post Post[]
 
   @@map("event")
+}
+
+model Media {
+  id   String @id @default(uuid())
+  name String
+  path String
+
+  postId String?  @map("post_id")
+  post   Post? @relation(fields: [postId], references: [id])
+
+
+  @@map("media")
+}
+
+model Post {
+  id                String  @id @default(uuid())
+  description       String
+  dh_create         DateTime? @default(now())
+
+
+  userOwnerId String?  @map("user_owner_id")
+  user   User? @relation(fields: [userOwnerId], references: [id])
+
+  eventId String?  @map("event")
+  event   Event? @relation(fields: [eventId], references: [id])
+
+  medias Media[]
+
+  @@map("post")
 }
