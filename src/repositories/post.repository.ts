@@ -57,7 +57,12 @@ class PostRepository {
       include:{
         event:{
           include: {
-            address:true
+            address:true,
+            category:{
+              include:{
+                category:true
+              }
+            }
           }
         },
         medias:true,
