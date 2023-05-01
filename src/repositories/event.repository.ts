@@ -21,7 +21,7 @@ class EventRepository {
       data: {
         name: event.name,
         budget: event.budget,
-        people: event.public,
+        people: event.people,
         description: event.description,
         dh_event: event.dh_event,
         dh_expiration: event.dh_expiration,
