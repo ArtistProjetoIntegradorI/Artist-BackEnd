@@ -58,7 +58,10 @@ class PostRepository {
         event:true,
         medias:true,
         user:true
-      } 
+      },
+      orderBy:{
+        dh_create: 'desc'
+      }
     });
 
     return posts;
@@ -85,6 +88,9 @@ class PostRepository {
        user: {
         id: id
        }
+      },
+      orderBy:{
+        dh_create: 'desc'
       }
     });
 
