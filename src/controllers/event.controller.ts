@@ -52,7 +52,7 @@ class EventController {
           long: addr.long        
         });
 
-        const event = await eventRepository.create({ name: name, description:description, dh_event:dh_event, dh_expiration:dh_expiration, userOwnerId:user, addressId: addressEvent.id, public: people, budget: budget});
+        const event = await eventRepository.create({ name: name, description:description, dh_event:dh_event, dh_expiration:dh_expiration, userOwnerId:user, addressId: addressEvent.id, people: people, budget: budget});
 
         if(event){
 
@@ -103,7 +103,7 @@ class EventController {
       throw new AppError("Evento não encontrado", 404);
     }
 
-    const event = await eventRepository.update(id, {name:name, description:description, dh_event:dh_event, dh_expiration:dh_expiration, public: people, budget: budget });
+    const event = await eventRepository.update(id, {name:name, description:description, dh_event:dh_event, dh_expiration:dh_expiration, people: people, budget: budget });
 
     return response.json(event);
   }

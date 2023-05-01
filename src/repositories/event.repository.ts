@@ -4,7 +4,7 @@ interface EventProps {
   name: string;
   description: string;
   budget: string;
-  public: string;
+  people: string;
   dh_event: Date;
   dh_expiration: Date;
   userOwnerId?: string;
@@ -21,7 +21,7 @@ class EventRepository {
       data: {
         name: event.name,
         budget: event.budget,
-        public: event.public,
+        people: event.public,
         description: event.description,
         dh_event: event.dh_event,
         dh_expiration: event.dh_expiration,

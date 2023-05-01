@@ -137,7 +137,7 @@ model Event {
   name          String
   description   String
   budget        String?
-  public        String?
+  people        String?
   dh_event      DateTime
   dh_expiration DateTime
 
