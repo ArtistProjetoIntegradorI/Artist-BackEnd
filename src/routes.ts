@@ -53,6 +53,7 @@ router.post("/post", multer(multerConfiguration).array("assets"), postController
 
 router.get("/post", postController.findAll);
 router.get("/post/:id", postController.findById);
+router.get("/posts/:id", postController.findByUser);
 router.put("/post/:id", postController.update);
 router.delete("/post/:id", postController.delete);
 

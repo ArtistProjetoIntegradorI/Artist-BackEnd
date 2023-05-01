@@ -68,6 +68,18 @@ class PostController {
     return response.json(post);
   }
 
+  async findByUser(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const post = await postRepository.findByUser(id);
+
+    if (!post) {
+      throw new AppError("Posts não encontrado", 404);
+    }
+
+    return response.json(post);
+  }
+
   async update(request: Request, response: Response) {
     const { id } = request.params;
     const { description, eventId, media } = request.body;
