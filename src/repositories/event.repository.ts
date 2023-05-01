@@ -3,6 +3,8 @@ import { prisma } from "../infra/prisma/connection";
 interface EventProps {
   name: string;
   description: string;
+  budget: string;
+  public: string;
   dh_event: Date;
   dh_expiration: Date;
   userOwnerId?: string;
@@ -18,6 +20,8 @@ class EventRepository {
     const stored = await prisma.event.create({
       data: {
         name: event.name,
+        budget: event.budget,
+        public: event.public,
         description: event.description,
         dh_event: event.dh_event,
         dh_expiration: event.dh_expiration,

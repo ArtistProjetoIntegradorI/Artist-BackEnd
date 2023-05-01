@@ -55,9 +55,22 @@ class PostRepository {
         }
       },
       include:{
-        event:true,
+        event:{
+          include: {
+            address:true
+          }
+        },
         medias:true,
-        user:true
+        user:{
+          include:{
+            categories:{
+              include:{
+                category:true
+              }
+            },
+            ratings:true
+          }
+        }
       },
       orderBy:{
         dh_create: 'desc'

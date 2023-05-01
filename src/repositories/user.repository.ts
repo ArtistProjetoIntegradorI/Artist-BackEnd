@@ -37,7 +37,10 @@ class UserRepository {
         user_type: {
           equals: user_type,
         },
-      },      
+      },  
+      orderBy: {
+        id: 'desc'
+      },    
       include:{
         categories: {
           include:{

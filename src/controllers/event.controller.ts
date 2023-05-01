@@ -6,7 +6,7 @@ import addressRepository from "../repositories/address.repository";
 
 class EventController {
   async create(request: Request, response: Response) {
-    const { name, description, dh_event,dh_expiration, address, user, categories } = request.body;
+    const { name, description, dh_event,dh_expiration, address, user, categories, budget, people } = request.body;
 
                   
     if (!name || !description || !dh_event || !dh_expiration || !address || !user || !categories ) {
@@ -52,7 +52,7 @@ class EventController {
           long: addr.long        
         });
 
-        const event = await eventRepository.create({ name: name, description:description, dh_event:dh_event, dh_expiration:dh_expiration, userOwnerId:user, addressId: addressEvent.id});
+        const event = await eventRepository.create({ name: name, description:description, dh_event:dh_event, dh_expiration:dh_expiration, userOwnerId:user, addressId: addressEvent.id, public: people, budget: budget});
 
         if(event){
 
@@ -95,7 +95,7 @@ class EventController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, description, dh_event,dh_expiration, categories } = request.body;
+    const { name, description, dh_event,dh_expiration, categories, people, budget } = request.body;
 
     const stored = await eventRepository.findById(id);
 
@@ -103,7 +103,7 @@ class EventController {
       throw new AppError("Evento não encontrado", 404);
     }
 
-    const event = await eventRepository.update(id, {name, description, dh_event,dh_expiration });
+    const event = await eventRepository.update(id, {name:name, description:description, dh_event:dh_event, dh_expiration:dh_expiration, public: people, budget: budget });
 
     return response.json(event);
   }
