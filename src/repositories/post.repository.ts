@@ -107,6 +107,29 @@ class PostRepository {
         id: id
        }
       },
+      include:{
+        event:{
+          include: {
+            address:true,
+            category:{
+              include:{
+                category:true
+              }
+            }
+          }
+        },
+        medias:true,
+        user:{
+          include:{
+            categories:{
+              include:{
+                category:true
+              }
+            },
+            ratings:true
+          }
+        }
+      },
       orderBy:{
         dh_create: 'desc'
       }
