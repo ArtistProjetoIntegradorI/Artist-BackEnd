@@ -44,6 +44,7 @@ router.post("/event", eventController.create);
 router.get("/events/:id", eventController.findAll);
 router.get("/event/:id", eventController.findById);
 router.put("/event/:id", eventController.update);
+router.put("/eventCategories/:id", eventController.deleteCategories);
 router.delete("/event/:id", eventController.delete);
 
 

@@ -121,6 +121,30 @@ class EventController {
 
     return response.json(event);
   }
+
+  async deleteCategories(request: Request, response: Response) {
+    const { id } = request.params;
+    const { categories } = request.body;
+
+    const stored = await eventRepository.findById(id);
+
+    if (!stored) {
+      throw new AppError("Evento não encontrado", 404);
+    }
+
+    const event = await eventCategoriesRepository.deleteMany(id);
+
+    if (categories && Array.isArray(categories)) {
+      categories.forEach((el) => {
+        eventCategoriesRepository.create({
+          category: el,
+          event: id
+        })
+      });
+    }
+
+    return response.json();
+  }
 }
 
 export default new EventController();

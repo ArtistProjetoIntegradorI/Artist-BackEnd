@@ -17,6 +17,15 @@ class EventCategoriesRepository {
     return stored;
   }
  
+  async deleteMany(event: string) {
+    const stored = await prisma.event_Category.deleteMany({
+      where: {
+        eventId: event,
+      },
+    });
+
+    return stored;
+  }
 }
 
 export default new EventCategoriesRepository();
