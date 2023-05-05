@@ -14,6 +14,9 @@ class PostController {
 
     const assets = request.files as Express.Multer.File[];
 
+    console.log(request)
+
+
     if (!description || !user) {
       const missingFields = [];
 
