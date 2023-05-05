@@ -6,10 +6,10 @@ import addressRepository from "../repositories/address.repository";
 
 class EventController {
   async create(request: Request, response: Response) {
-    const { name, description, dh_event,dh_expiration, address, user, categories, budget, people } = request.body;
+    const { name, description, dh_event, dh_expiration, address, user, categories, budget, people } = request.body;
 
-                  
-    if (!name || !description || !dh_event || !dh_expiration || !address || !user || !categories ) {
+
+    if (!name || !description || !dh_event || !dh_expiration || !address || !user || !categories) {
       const missingFields = [];
 
       if (!name) missingFields.push("name");
@@ -49,29 +49,29 @@ class EventController {
           street: addr.street,
           zip_code: addr.zip_code,
           lat: addr.lat,
-          long: addr.long        
+          long: addr.long
         });
 
-        const event = await eventRepository.create({ name: name, description:description, dh_event:dh_event, dh_expiration:dh_expiration, userOwnerId:user, addressId: addressEvent.id, people: people, budget: budget});
+      const event = await eventRepository.create({ name: name, description: description, dh_event: dh_event, dh_expiration: dh_expiration, userOwnerId: user, addressId: addressEvent.id, people: people, budget: budget });
 
-        if(event){
+      if (event) {
 
-          if (categories && Array.isArray(categories)) {
-            categories.forEach((el) => {
-              eventCategoriesRepository.create({
-                category: el,
-                event: event.id
-              })
-            });
-          }
-
+        if (categories && Array.isArray(categories)) {
+          categories.forEach((el) => {
+            eventCategoriesRepository.create({
+              category: el,
+              event: event.id
+            })
+          });
         }
 
-        return response.status(201).json(event);
+      }
+
+      return response.status(201).json(event);
     }
 
-    
-  } 
+
+  }
 
   async findById(request: Request, response: Response) {
     const { id } = request.params;
@@ -95,7 +95,7 @@ class EventController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, description, dh_event,dh_expiration, categories, people, budget } = request.body;
+    const { name, description, dh_event, dh_expiration, categories, people, budget } = request.body;
 
     const stored = await eventRepository.findById(id);
 
@@ -103,7 +103,18 @@ class EventController {
       throw new AppError("Evento não encontrado", 404);
     }
 
-    const event = await eventRepository.update(id, {name:name, description:description, dh_event:dh_event, dh_expiration:dh_expiration, people: people, budget: budget });
+    const event = await eventRepository.update(id, { name: name, description: description, dh_event: dh_event, dh_expiration: dh_expiration, people: people, budget: budget });
+
+    const cat = await eventCategoriesRepository.deleteMany(id);
+    console.log(categories)
+    if (Array.isArray(categories)) {
+      categories.forEach((el) => {
+        eventCategoriesRepository.create({
+          category: el,
+          event: id
+        })
+      });
+    }
 
     return response.json(event);
   }
