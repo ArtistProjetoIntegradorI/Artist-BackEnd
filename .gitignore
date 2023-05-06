@@ -3,3 +3,4 @@
 node_modules
 .\prisma\database\
 prisma\database
+Artist-BackEnd\prisma\database\dev.db
