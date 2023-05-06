@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { AppError } from "../handlers/errors.handler";
 import postRepository from "../repositories/post.repository";
 import mediaRepository from "../repositories/media.repository";
-import multer from 'multer';
 
 
 class PostController {

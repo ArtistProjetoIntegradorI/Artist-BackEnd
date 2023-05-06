@@ -11,7 +11,7 @@ const local = multer.diskStorage({
     }
 })
 
-const MAX_SIZE = 1024 * 1024 * 10; //5MB
+const MAX_SIZE = 1024 * 1024 * 10; //10MB
 
 const multerConfiguration: multer.Options = {
     dest: destinationPath,
