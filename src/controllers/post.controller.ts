@@ -14,9 +14,6 @@ class PostController {
 
     const assets = request.files as Express.Multer.File[];
 
-    console.log(request)
-
-
     if (!description || !user) {
       const missingFields = [];
 
@@ -109,13 +106,13 @@ class PostController {
     return response.json(post);
   }
 }
- function createMedias(medias:Express.Multer.File[], post: string){
+async function createMedias(medias:Express.Multer.File[], post: string){
     
   const retMedias = [];
 
 
   for (const file of medias) {
-    const med = mediaRepository.create({
+    const med = await mediaRepository.create({
       name: file.filename,
       path: file.path,
       post: post
