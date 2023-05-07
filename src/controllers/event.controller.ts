@@ -95,7 +95,7 @@ class EventController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, description, dh_event, dh_expiration, categories, people, budget } = request.body;
+    const { name, description, dh_event, dh_expiration, categories, people, budget, address } = request.body;
 
     const stored = await eventRepository.findById(id);
 
@@ -104,6 +104,18 @@ class EventController {
     }
 
     const event = await eventRepository.update(id, { name: name, description: description, dh_event: dh_event, dh_expiration: dh_expiration, people: people, budget: budget });
+
+    const addr =
+        await addressRepository.update(address.id, {
+          city: address.city,
+          contry: address.contry,
+          neighborhood: address.neighborhood,
+          number: address.number,
+          street: address.street,
+          zip_code: address.zip_code,
+          lat: address.lat,
+          long: address.long
+        });
 
     const cat = await eventCategoriesRepository.deleteMany(id);
     console.log(categories)
