@@ -71,6 +71,7 @@ class UserRepository {
           }
         },
         ratings: true,
+        address: true,
         social: {
           include:{
             social:true
