@@ -53,7 +53,12 @@ class AddressRepository {
         contry: address.contry,      
         lat: address.lat,
         long:address.long,
-        zip_code: address.zip_code
+        zip_code: address.zip_code,
+        user : {
+          connect :{
+            id: address.user
+          }
+        }
       },
       
     });
