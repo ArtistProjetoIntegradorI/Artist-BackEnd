@@ -51,6 +51,16 @@ class CategoriesRepository {
     return stored;
   }
 
+  async deleteMany(post: string) {
+    const stored = await prisma.media.deleteMany({
+      where: {
+        postId: post,
+      },
+    });
+
+    return stored;
+  }
+
   async delete(id: string, media: MediaProps) {
     const stored = await prisma.media.delete({
       where: {

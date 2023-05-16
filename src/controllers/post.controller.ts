@@ -6,7 +6,7 @@ import mediaRepository from "../repositories/media.repository";
 
 class PostController {
   async create(request: Request, response: Response) {
-    
+
     const description = request.body.description;
     const event = request.body.event;
     const user = request.body.user;
@@ -18,30 +18,30 @@ class PostController {
 
       if (!description) missingFields.push("description");
       if (!user) missingFields.push("user");
-  
+
 
       throw new AppError(`Um ou mais campos não enviados: ${missingFields.join(", ")}`);
     }
 
-    if(event){
-      const post = await postRepository.createEv({ description:description, dh_create: new Date(), userOwnerId:user, eventId:event });
+    if (event) {
+      const post = await postRepository.createEv({ description: description, dh_create: new Date(), userOwnerId: user, eventId: event });
 
-      if(post && assets){
-          const medias = createMedias(assets, post.id);
-      }
-
-      return response.status(201).json(post);
-    }else{
-      
-      const post = await postRepository.create({ description:description, dh_create: new Date(), userOwnerId:user });
-      
-      if(post && assets){
+      if (post && assets) {
         const medias = createMedias(assets, post.id);
       }
 
       return response.status(201).json(post);
-    } 
-    
+    } else {
+
+      const post = await postRepository.create({ description: description, dh_create: new Date(), userOwnerId: user });
+
+      if (post && assets) {
+        const medias = createMedias(assets, post.id);
+      }
+
+      return response.status(201).json(post);
+    }
+
   }
 
   async findAll(request: Request, response: Response) {
@@ -78,7 +78,9 @@ class PostController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { description, eventId, media } = request.body;
+    const { description, event } = request.body;
+
+    const assets = request.files as Express.Multer.File[];
 
     const stored = await postRepository.findById(id);
 
@@ -86,7 +88,14 @@ class PostController {
       throw new AppError("Post não encontrado", 404);
     }
 
-    const post = await postRepository.update(id, {description, eventId});
+    const post = await postRepository.update(id, { description, eventId: event });
+
+    if (assets.length > 0) {
+      mediaRepository.deleteMany(post.id);
+      const medias = createMedias(assets, post.id);
+    } else {
+      mediaRepository.deleteMany(post.id);
+    }
 
     return response.json(post);
   }
@@ -105,8 +114,8 @@ class PostController {
     return response.json(post);
   }
 }
-async function createMedias(medias:Express.Multer.File[], post: string){
-    
+async function createMedias(medias: Express.Multer.File[], post: string) {
+
   const retMedias = [];
 
 
@@ -116,7 +125,7 @@ async function createMedias(medias:Express.Multer.File[], post: string){
       path: file.path,
       post: post
     });
-    
+
     retMedias.push(med);
 
   }

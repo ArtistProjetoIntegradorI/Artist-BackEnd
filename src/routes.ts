@@ -50,12 +50,12 @@ router.delete("/event/:id", eventController.delete);
 
 //Post
 router.post("/post", multer(multerConfiguration).array("assets"), postController.create);
+router.put("/post/:id", multer(multerConfiguration).array("assets"), postController.update);
 
 
 router.get("/post", postController.findAll);
 router.get("/post/:id", postController.findById);
 router.get("/posts/:id", postController.findByUser);
-router.put("/post/:id", postController.update);
 router.delete("/post/:id", postController.delete);
 
 
