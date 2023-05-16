@@ -22,7 +22,7 @@ class AddressController {
       throw new AppError(`Um ou mais campos não enviados: ${missingFields.join(", ")}`);
     }
 
-    const address = await addressRepository.createForEvent({ street, neighborhood, number, city, contry, lat, long, zip_code, user });
+    const address = await addressRepository.createForUser({ street, neighborhood, number, city, contry, lat, long, zip_code, user });
 
     return response.status(201).json(address);
   } 

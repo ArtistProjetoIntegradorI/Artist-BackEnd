@@ -53,6 +53,24 @@ class AddressRepository {
         contry: address.contry,      
         lat: address.lat,
         long:address.long,
+        zip_code: address.zip_code
+      },
+      
+    });
+
+    return stored;
+  }
+
+  async createForUser(address: AddressProps) {
+    const stored = await prisma.address.create({
+      data: {
+        city: address.city,
+        street: address.street,
+        neighborhood: address.neighborhood,
+        number: address.number,
+        contry: address.contry,      
+        lat: address.lat,
+        long:address.long,
         zip_code: address.zip_code,
         user : {
           connect :{
@@ -65,6 +83,7 @@ class AddressRepository {
 
     return stored;
   }
+
 
   async findById(id: string) {
     const address = await prisma.address.findUnique({

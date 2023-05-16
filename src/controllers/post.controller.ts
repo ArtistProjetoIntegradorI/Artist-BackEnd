@@ -78,7 +78,7 @@ class PostController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { description, event } = request.body;
+    const { description, event, alterou_medias } = request.body;
 
     const assets = request.files as Express.Multer.File[];
 
@@ -87,14 +87,20 @@ class PostController {
     if (!stored) {
       throw new AppError("Post não encontrado", 404);
     }
-
-    const post = await postRepository.update(id, { description, eventId: event });
-
-    if (assets.length > 0) {
-      mediaRepository.deleteMany(post.id);
-      const medias = createMedias(assets, post.id);
+    var post;
+    if (event && event != '') {
+      post = await postRepository.update(stored.id, { description, eventId: event });
     } else {
-      mediaRepository.deleteMany(post.id);
+      post = await postRepository.update(stored.id, { description });
+    }
+
+    if (alterou_medias === 'true') {
+      if (assets.length > 0) {
+        mediaRepository.deleteMany(post.id);
+        const medias = createMedias(assets, post.id);
+      } else {
+        mediaRepository.deleteMany(post.id);
+      }
     }
 
     return response.json(post);

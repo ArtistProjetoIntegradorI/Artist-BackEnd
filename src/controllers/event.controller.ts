@@ -23,7 +23,7 @@ class EventController {
       throw new AppError(`Um ou mais campos não enviados: ${missingFields.join(", ")}`);
     }
 
-    if (typeof address === 'object' && address !== null) {
+    if (typeof address == 'object' && address !== null) {
 
       const addr: AddressProps = address;
 
@@ -48,8 +48,8 @@ class EventController {
           number: addr.number,
           street: addr.street,
           zip_code: addr.zip_code,
-          lat: addr.lat,
-          long: addr.long
+          lat: addr.lat ? addr.lat : '',
+          long: addr.long ? addr.long : ''
         });
 
       const event = await eventRepository.create({ name: name, description: description, dh_event: dh_event, dh_expiration: dh_expiration, userOwnerId: user, addressId: addressEvent.id, people: people, budget: budget });
