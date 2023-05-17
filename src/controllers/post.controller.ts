@@ -97,7 +97,7 @@ class PostController {
     if (alterou_medias === 'true') {
       if (assets.length > 0) {
         mediaRepository.deleteMany(post.id);
-        const medias = createMedias(assets, post.id);
+        const medias =  await createMedias(assets, post.id);
       } else {
         mediaRepository.deleteMany(post.id);
       }
