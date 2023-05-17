@@ -16,6 +16,16 @@ class UserCategoriesRepository {
 
     return stored;
   }
+
+  async deleteMany(user: string) {
+    const stored = await prisma.user_Category.deleteMany({
+      where: {
+        userId: user,
+      },
+    });
+
+    return stored;
+  }
  
 }
 

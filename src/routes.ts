@@ -33,6 +33,7 @@ router.post("/login", userController.login);
 
 //User
 router.post("/user", userController.create);
+router.post("/user_categories", userController.updateCategories);
 router.get("/user", userController.findAll);
 router.get("/user/:id", userController.findById);
 router.put("/user/:id", userController.update);

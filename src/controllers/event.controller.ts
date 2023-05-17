@@ -118,7 +118,6 @@ class EventController {
         });
 
     const cat = await eventCategoriesRepository.deleteMany(id);
-    console.log(categories)
     if (Array.isArray(categories)) {
       categories.forEach((el) => {
         eventCategoriesRepository.create({

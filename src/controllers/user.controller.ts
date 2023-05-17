@@ -152,6 +152,29 @@ class UserController {
     return response.json(user);
   }
 
+  async updateCategories(request: Request, response: Response) {
+    const { user, categories } = request.body;
+
+    const stored = await userRepository.findById(user);
+
+    if (!stored) {
+      throw new AppError("Usuario não encontrado", 404);
+    }
+
+    //Deleta todas as categorias e insere novamente
+    const cat = await userCategoriesRepository.deleteMany(user);
+    if (Array.isArray(categories)) {
+      categories.forEach((el) => {
+        userCategoriesRepository.create({
+          category: el,
+          user: user
+        })
+      });
+    }
+
+    return response.json(user);
+  }
+
   async delete(request: Request, response: Response) {
     const { id } = request.params;
 
