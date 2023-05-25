@@ -93,7 +93,16 @@ class PostRepository {
       include:{
         event:true,
         medias:true,
-        user:true
+        user:{
+          include:{
+            categories:{
+              include:{
+                category:true
+              }
+            },
+            ratings:true
+          }
+        }
       } 
     });
 

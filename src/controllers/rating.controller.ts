@@ -19,7 +19,7 @@ class RatingController {
     }
 
     //Bloco pra verificar se o valor é valido 
-    if (!Number.isInteger(value) || value < 0 || value > 10) {
+    if (!Number.isInteger(value) || value < 0 || value > 5) {
       throw new AppError(`Valor ${value} invalido!`);
     }
 
@@ -30,9 +30,30 @@ class RatingController {
 
       if (usRate) {
 
+        if(usRate.user_type != 'organizer'){
+          throw new AppError('Usuario precisa ser Organizador.');
+        }
+
+        const rat = await ratingRepository.findByUser(usRate.id);
+
+        if(rat.length > 0){
+          throw new AppError('Você já avaliou esse usuario.');
+        }
+        
+
         const rating = await ratingRepository.create({ value, userRate, user });
 
-        return response.status(201).json(rating);
+        let usuario = await userRepository.findById(user);
+
+        let totalRating = 0;
+
+        if (usuario?.ratings && usuario.ratings.length > 0) {
+          const sumRatings = usuario.ratings.reduce((acc, rating) => acc + rating.value, 0);
+          const userAverageRating = sumRatings / usuario.ratings.length;
+          totalRating += userAverageRating;
+        }
+
+        return response.status(201).json(Math.floor(totalRating));
 
       } else {
         throw new AppError('User rate não encontrado.');

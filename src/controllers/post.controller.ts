@@ -49,6 +49,18 @@ class PostController {
 
     const posts = await postRepository.findAll({ search: search ? String(search) : undefined });
 
+    for (const post of posts) {
+      let totalRating = 0;
+
+      if (post.user?.ratings && post.user.ratings.length > 0) {
+        const sumRatings = post.user.ratings.reduce((acc, rating) => acc + rating.value, 0);
+        const userAverageRating = sumRatings / post.user.ratings.length;
+        totalRating += userAverageRating;
+        post.user.rating = Math.floor(totalRating);
+      }
+
+    }
+
     return response.json(posts);
   }
 
@@ -61,19 +73,40 @@ class PostController {
       throw new AppError("Post não encontrado", 404);
     }
 
+    let totalRating = 0;
+
+    if (post.user?.ratings && post.user.ratings.length > 0) {
+      const sumRatings = post.user.ratings.reduce((acc, rating) => acc + rating.value, 0);
+      const userAverageRating = sumRatings / post.user.ratings.length;
+      totalRating += userAverageRating;
+      post.user.rating = Math.floor(totalRating);
+    }
+
     return response.json(post);
   }
 
   async findByUser(request: Request, response: Response) {
     const { id } = request.params;
 
-    const post = await postRepository.findByUser(id);
+    const posts = await postRepository.findByUser(id);
 
-    if (!post) {
+    if (!posts) {
       throw new AppError("Posts não encontrado", 404);
     }
 
-    return response.json(post);
+    for (const post of posts) {
+      let totalRating = 0;
+
+      if (post.user?.ratings && post.user.ratings.length > 0) {
+        const sumRatings = post.user.ratings.reduce((acc, rating) => acc + rating.value, 0);
+        const userAverageRating = sumRatings / post.user.ratings.length;
+        totalRating += userAverageRating;
+        post.user.rating = Math.floor(totalRating);
+      }
+
+    }
+
+    return response.json(posts);
   }
 
   async update(request: Request, response: Response) {
@@ -97,7 +130,7 @@ class PostController {
     if (alterou_medias === 'true') {
       if (assets.length > 0) {
         mediaRepository.deleteMany(post.id);
-        const medias =  await createMedias(assets, post.id);
+        const medias = await createMedias(assets, post.id);
       } else {
         mediaRepository.deleteMany(post.id);
       }

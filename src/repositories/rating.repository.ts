@@ -27,6 +27,16 @@ class ratingRepository {
     return stored;
   }
 
+  async findByUser(id: string) {
+    const rating = await prisma.rating.findMany({
+      where: {
+        userRate: id
+      }
+    });
+
+    return rating;
+  }
+
 }
 
 export default new ratingRepository();

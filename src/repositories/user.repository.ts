@@ -11,6 +11,7 @@ interface UserProps {
   profile_image?: string;
   cel_phone: string;
   addressId: string;
+  rating? : number;
 }
 
 

@@ -44,6 +44,7 @@ model User {
   email         String? @unique
   profile_image String?
   cel_phone     String?
+  rating        Int?
 
   addressId String?  @map("address_id")
   address   Address? @relation(fields: [addressId], references: [id])
@@ -96,6 +97,8 @@ model Social {
   name String
 
   userSocial User_Social[]
+
+  @@map("social")
 }
 
 model User_Social {
@@ -169,6 +172,7 @@ model Post {
   id          String    @id @default(uuid())
   description String
   dh_create   DateTime? @default(now())
+  dh_edit   DateTime? @updatedAt
 
   userOwnerId String? @map("user_owner_id")
   user        User?   @relation(fields: [userOwnerId], references: [id])
