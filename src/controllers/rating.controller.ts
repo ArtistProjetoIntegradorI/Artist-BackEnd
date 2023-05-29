@@ -34,7 +34,7 @@ class RatingController {
           throw new AppError('Usuario precisa ser Organizador.');
         }
 
-        const rat = await ratingRepository.findByUser(usRate.id);
+        const rat = await ratingRepository.findByUser(usRate.id, user);
 
         if(rat.length > 0){
           throw new AppError('Você já avaliou esse usuario.');

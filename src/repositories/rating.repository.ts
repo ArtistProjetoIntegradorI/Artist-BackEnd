@@ -27,10 +27,11 @@ class ratingRepository {
     return stored;
   }
 
-  async findByUser(id: string) {
+  async findByUser(idRate: string, idUser: string) {
     const rating = await prisma.rating.findMany({
       where: {
-        userRate: id
+        userRate: idRate,
+        userId: idUser
       }
     });
 
