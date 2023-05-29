@@ -78,7 +78,7 @@ class PostRepository {
         }
       },
       orderBy:{
-        dh_create: 'desc'
+        dh_edit: 'desc'
       }
     });
 
