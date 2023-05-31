@@ -2,14 +2,13 @@ import { Request, Response } from "express";
 import { AppError } from "../handlers/errors.handler";
 import userRepository from "../repositories/user.repository";
 import userCategoriesRepository from "../repositories/user_categories.repository";
-import userSocialRepository from "../repositories/user_social.repository";
 import addressRepository from "../repositories/address.repository";
 import { generateToken } from '../utils/jsonwebtoken.util'
 
 
 class UserController {
   async create(request: Request, response: Response) {
-    const { name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId, address, categories, social } = request.body;
+    const { name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId, address, categories, tiktokUrl, facebookUrl, youtubeUrl, instagramUrl } = request.body;
 
 
     if (!name || !username || !password || !user_type) {
@@ -23,7 +22,7 @@ class UserController {
       throw new AppError(`Um ou mais campos não enviados: ${missingFields.join(", ")}`);
     }
 
-    const user = await userRepository.create({ name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId });
+    const user = await userRepository.create({ name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId, tiktokUrl, facebookUrl, youtubeUrl, instagramUrl });
 
     if (typeof address === 'object' && address !== null) {
 
@@ -55,25 +54,15 @@ class UserController {
           user: user.id
         });
 
-        if(addressUser){
-          user.addressId = addressUser.id;
-        }
+      if (addressUser) {
+        user.addressId = addressUser.id;
+      }
     }
 
     if (categories && Array.isArray(categories)) {
       categories.forEach((el) => {
         userCategoriesRepository.create({
           category: el,
-          user: user.id
-        })
-      });
-    }
-
-    if (social && Array.isArray(social)) {
-      social.forEach((el) => {
-        userSocialRepository.create({
-          social: el.id,
-          url: el.url,
           user: user.id
         })
       });
@@ -139,7 +128,7 @@ class UserController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId } = request.body;
+    const { name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId, tiktokUrl, facebookUrl, youtubeUrl, instagramUrl } = request.body;
 
     const stored = await userRepository.findById(id);
 
@@ -147,7 +136,7 @@ class UserController {
       throw new AppError("Usuario não encontrado", 404);
     }
 
-    const user = await userRepository.update(id, { name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId });
+    const user = await userRepository.update(id, { name, username, password, user_type, document, email, profile_image, cel_phone, status, addressId, tiktokUrl, facebookUrl, youtubeUrl, instagramUrl });
 
     return response.json(user);
   }

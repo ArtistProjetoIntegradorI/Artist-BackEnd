@@ -12,6 +12,10 @@ interface UserProps {
   cel_phone: string;
   addressId: string;
   rating? : number;
+  tiktokUrl?: string;
+  facebookUrl?: string;
+  youtubeUrl? :string;
+  instagramUrl?:string;
 }
 
 
@@ -48,12 +52,7 @@ class UserRepository {
             category:true
           }
         },
-        ratings: true,
-        social:{
-          include:{
-            social: true
-          }
-        }
+        ratings: true
       }
     });
 
@@ -72,12 +71,7 @@ class UserRepository {
           }
         },
         ratings: true,
-        address: true,
-        social: {
-          include:{
-            social:true
-          }
-        },
+        address: true
       },
     });
 

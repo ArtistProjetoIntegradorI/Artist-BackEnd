@@ -46,14 +46,18 @@ model User {
   cel_phone     String?
   rating        Int?
 
+  facebookUrl   String? 
+  instagramUrl  String? 
+  tiktokUrl     String? 
+  youtubeUrl    String? 
+
+
   addressId String?  @map("address_id")
   address   Address? @relation(fields: [addressId], references: [id])
 
   categories User_Category[]
 
   ratings Rating[]
-
-  social User_Social[]
 
   events Event[]
 
@@ -90,27 +94,6 @@ model Rating {
   user   User?   @relation(fields: [userId], references: [id])
 
   @@map("rating")
-}
-
-model Social {
-  id   String @id @default(uuid())
-  name String
-
-  userSocial User_Social[]
-
-  @@map("social")
-}
-
-model User_Social {
-  userId   String @map("user_id")
-  socialId String @map("social_id")
-  url      String
-
-  user   User   @relation(fields: [userId], references: [id])
-  social Social @relation(fields: [socialId], references: [id])
-
-  @@id([userId, socialId])
-  @@map("user_social")
 }
 
 model Event_Category {
