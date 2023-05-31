@@ -36,12 +36,11 @@ class RatingController {
 
         const rat = await ratingRepository.findByUser(usRate.id, user);
 
-        if(rat.length > 0){
-          throw new AppError('Você já avaliou esse usuario.');
-        }
-        
-
-        const rating = await ratingRepository.create({ value, userRate, user });
+        if(rat){
+         const editRating =  ratingRepository.update(rat.id, value);
+        }else{
+          const newRating = await ratingRepository.create({ value, userRate, user });
+        }     
 
         let usuario = await userRepository.findById(user);
 

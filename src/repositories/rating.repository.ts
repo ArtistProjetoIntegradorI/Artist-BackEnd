@@ -28,7 +28,7 @@ class ratingRepository {
   }
 
   async findByUser(idRate: string, idUser: string) {
-    const rating = await prisma.rating.findMany({
+    const rating = await prisma.rating.findFirst({
       where: {
         userRate: idRate,
         userId: idUser
@@ -36,6 +36,19 @@ class ratingRepository {
     });
 
     return rating;
+  }
+
+  async update(id: string, rating: number) {
+    const stored = await prisma.rating.update({
+      where: {
+        id,
+      },
+      data: {
+        value: rating
+      },
+    });
+
+    return stored;
   }
 
 }
