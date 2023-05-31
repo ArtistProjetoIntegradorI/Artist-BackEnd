@@ -1,7 +1,6 @@
 # Keep environment variables out of version control
 .env
 node_modules
-.\prisma\database\
-prisma\database
-Artist-BackEnd\prisma\database\dev.db
-prisma\database\dev.db
+
+prisma/migrations
+prisma/database/dev.db
