@@ -73,7 +73,11 @@ class PostRepository {
                 category:true
               }
             },
-            ratings:true
+            ratings:{
+              include: {
+                user: true
+              }
+            }
           }
         }
       },
@@ -100,7 +104,11 @@ class PostRepository {
                 category:true
               }
             },
-            ratings:true
+            ratings:{
+              include: {
+                user: true
+              }
+            }
           }
         }
       } 
@@ -135,7 +143,11 @@ class PostRepository {
                 category:true
               }
             },
-            ratings:true
+            ratings:{
+              include: {
+                user: true
+              }
+            }
           }
         }
       },

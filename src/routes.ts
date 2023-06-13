@@ -6,6 +6,7 @@ import addressController from "./controllers/address.controller";
 import ratingController from "./controllers/rating.controller";
 import eventController from "./controllers/event.controller";
 import postController from "./controllers/post.controller";
+import candidaturasController from "./controllers/candidaturas.controller";
 
 import multer from "multer";
 import { multerConfiguration } from "./configuration/multer.configuration";
@@ -67,5 +68,13 @@ router.delete("/address/:id", addressController.delete);
 
 //Rating
 router.post("/rating", ratingController.create); 
+
+//Candidaturas
+router.post("/candidatura", candidaturasController.create);
+router.get("/candidatura/artist/:id", candidaturasController.findByUser);
+router.get("/candidatura/event/:id", candidaturasController.findByEvent);
+router.put("/candidatura/:id", candidaturasController.update);
+router.delete("/candidatura/:id", candidaturasController.delete);
+
 
 export { router };

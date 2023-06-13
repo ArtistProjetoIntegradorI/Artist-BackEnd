@@ -25,17 +25,17 @@ class EventRepository {
         description: event.description,
         dh_event: event.dh_event,
         dh_expiration: event.dh_expiration,
-        user : {
-          connect :{
+        user: {
+          connect: {
             id: event.userOwnerId
           }
         },
-        address : {
-          connect :{
+        address: {
+          connect: {
             id: event.addressId
           }
         }
-      }, 
+      },
     });
 
     return stored;
@@ -47,14 +47,14 @@ class EventRepository {
         name: {
           contains: search,
         }
-      },      
-      include:{
+      },
+      include: {
         category: {
-          include:{
-            category:true
+          include: {
+            category: true
           }
         },
-        address:true
+        address: true
       }
     });
 
@@ -66,13 +66,18 @@ class EventRepository {
       where: {
         id,
       },
-      include:{
+      include: {
         category: {
-          include:{
-            category:true
+          include: {
+            category: true
           }
         },
-        address:true
+        address: true,
+        event_artist: {
+          include: {
+            artist: true
+          }
+        }
       },
     });
 
@@ -82,17 +87,17 @@ class EventRepository {
   async findByUser(id: string) {
     const event = await prisma.event.findMany({
       where: {
-       user: {
-        id: id
-       }
+        user: {
+          id: id
+        }
       },
-      include:{
+      include: {
         category: {
-          include:{
-            category:true
+          include: {
+            category: true
           }
         },
-        address:true
+        address: true
       },
     });
 
