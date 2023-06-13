@@ -4,6 +4,7 @@ interface EventArtist {
   event: string;
   artist: string;
   accept: boolean;
+  dh_action?: Date;
 }
 
 class EventArtistRepository {
@@ -79,7 +80,8 @@ class EventArtistRepository {
         id,
       },
       data: {
-        accept: candidatura.accept
+        accept: candidatura.accept,
+        dh_action: candidatura.dh_action
       }
     });
 

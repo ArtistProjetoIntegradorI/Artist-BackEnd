@@ -24,7 +24,7 @@ class CandidaturasController {
       throw new AppError(`Artista já inscrito.`);
     }
 
-    const candidatura = await event_artistsRepository.create({ accept, artist, event });
+    const candidatura = await event_artistsRepository.create({ accept, artist, event});
 
     return response.status(201).json(candidatura);
   }
@@ -47,7 +47,7 @@ class CandidaturasController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { artist, event, accept } = request.body;
+    const { artist, event, accept, dh_action } = request.body;
 
     const stored = await event_artistsRepository.findById(id);
 
@@ -55,7 +55,7 @@ class CandidaturasController {
       throw new AppError("Candidatura não encontrada", 404);
     }
 
-    const candidatura = await event_artistsRepository.update(id, { artist, event, accept });
+    const candidatura = await event_artistsRepository.update(id, { artist, event, accept, dh_action });
 
     return response.json(candidatura);
   }
