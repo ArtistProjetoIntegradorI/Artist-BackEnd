@@ -11,11 +11,11 @@ interface UserProps {
   profile_image?: string;
   cel_phone: string;
   addressId: string;
-  rating? : number;
+  rating?: number;
   tiktokUrl?: string;
   facebookUrl?: string;
-  youtubeUrl? :string;
-  instagramUrl?:string;
+  youtubeUrl?: string;
+  instagramUrl?: string;
 }
 
 
@@ -27,7 +27,7 @@ interface FindAllProps {
 class UserRepository {
   async create(user: UserProps) {
     const stored = await prisma.user.create({
-      data: user     
+      data: user
     });
 
     return stored;
@@ -42,17 +42,21 @@ class UserRepository {
         user_type: {
           equals: user_type,
         },
-      },  
+      },
       orderBy: {
         id: 'desc'
-      },    
-      include:{
+      },
+      include: {
         categories: {
-          include:{
-            category:true
+          include: {
+            category: true
           }
         },
-        ratings: true
+        ratingsReceived: {
+          include: {
+            ratedByUser: true
+          }
+        },
       }
     });
 
@@ -64,13 +68,17 @@ class UserRepository {
       where: {
         id,
       },
-      include:{
+      include: {
         categories: {
-          include:{
-            category:true
+          include: {
+            category: true
           }
         },
-        ratings: true,
+        ratingsReceived: {
+          include: {
+            ratedByUser: true
+          }
+        },
         address: true
       },
     });

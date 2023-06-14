@@ -46,9 +46,9 @@ class RatingController {
 
         let totalRating = 0;
 
-        if (usuario?.ratings && usuario.ratings.length > 0) {
-          const sumRatings = usuario.ratings.reduce((acc, rating) => acc + rating.value, 0);
-          const userAverageRating = sumRatings / usuario.ratings.length;
+        if (usuario?.ratingsReceived && usuario.ratingsReceived.length > 0) {
+          const sumRatings = usuario.ratingsReceived.reduce((acc, rating) => acc + rating.value, 0);
+          const userAverageRating = sumRatings / usuario.ratingsReceived.length;
           totalRating += userAverageRating;
         }
 

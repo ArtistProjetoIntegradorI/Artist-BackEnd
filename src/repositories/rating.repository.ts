@@ -15,13 +15,18 @@ class ratingRepository {
     const stored = await prisma.rating.create({
       data: {
         value: rating.value,
-        userRate: rating.userRate,
-        user:{
+        ratedUser: {
           connect: {
             id: rating.user
           }
+        },
+        ratedByUser: {
+          connect: {
+            id: rating.userRate
+          }
         }
-      }     
+
+      }
     });
 
     return stored;
@@ -30,8 +35,12 @@ class ratingRepository {
   async findByUser(idRate: string, idUser: string) {
     const rating = await prisma.rating.findFirst({
       where: {
-        userRate: idRate,
-        userId: idUser
+        ratedByUser: {
+          id: idRate
+        },
+        ratedUser: {
+          id: idUser
+        }
       }
     });
 

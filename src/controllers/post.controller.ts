@@ -52,9 +52,9 @@ class PostController {
     for (const post of posts) {
       let totalRating = 0;
 
-      if (post.user?.ratings && post.user.ratings.length > 0) {
-        const sumRatings = post.user.ratings.reduce((acc, rating) => acc + rating.value, 0);
-        const userAverageRating = sumRatings / post.user.ratings.length;
+      if (post.user?.ratingsReceived && post.user.ratingsReceived.length > 0) {
+        const sumRatings = post.user.ratingsReceived.reduce((acc, rating) => acc + rating.value, 0);
+        const userAverageRating = sumRatings / post.user.ratingsReceived.length;
         totalRating += userAverageRating;
         post.user.rating = Math.floor(totalRating);
       }
@@ -75,9 +75,9 @@ class PostController {
 
     let totalRating = 0;
 
-    if (post.user?.ratings && post.user.ratings.length > 0) {
-      const sumRatings = post.user.ratings.reduce((acc, rating) => acc + rating.value, 0);
-      const userAverageRating = sumRatings / post.user.ratings.length;
+    if (post.user?.ratingsReceived && post.user.ratingsReceived.length > 0) {
+      const sumRatings = post.user.ratingsReceived.reduce((acc, rating) => acc + rating.value, 0);
+      const userAverageRating = sumRatings / post.user.ratingsReceived.length;
       totalRating += userAverageRating;
       post.user.rating = Math.floor(totalRating);
     }
@@ -97,9 +97,9 @@ class PostController {
     for (const post of posts) {
       let totalRating = 0;
 
-      if (post.user?.ratings && post.user.ratings.length > 0) {
-        const sumRatings = post.user.ratings.reduce((acc, rating) => acc + rating.value, 0);
-        const userAverageRating = sumRatings / post.user.ratings.length;
+      if (post.user?.ratingsReceived && post.user.ratingsReceived.length > 0) {
+        const sumRatings = post.user.ratingsReceived.reduce((acc, rating) => acc + rating.value, 0);
+        const userAverageRating = sumRatings / post.user.ratingsReceived.length;
         totalRating += userAverageRating;
         post.user.rating = Math.floor(totalRating);
       }

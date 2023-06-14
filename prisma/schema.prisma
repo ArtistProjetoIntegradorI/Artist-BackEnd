@@ -57,7 +57,8 @@ model User {
 
   categories User_Category[]
 
-  ratings Rating[]
+  ratingsGiven    Rating[] @relation("RatedByUser")
+  ratingsReceived Rating[] @relation("RatedUser")
 
   events Event[]
 
@@ -86,15 +87,18 @@ model Address {
 }
 
 model Rating {
-  id       String @id @default(uuid())
-  value    Int
-  userRate String
+  id        String @id @default(uuid())
+  value     Int
 
-  userId String? @map("user_id")
-  user   User?   @relation(fields: [userId], references: [id])
+  ratedByUserId   String? @map("rated_by_user_id")
+  ratedByUser     User?   @relation("RatedByUser", fields: [ratedByUserId], references: [id])
+
+  ratedUserId     String? @map("rated_user_id")
+  ratedUser       User?   @relation("RatedUser", fields: [ratedUserId], references: [id])
 
   @@map("rating")
 }
+
 
 model Event_Category {
   eventId    String @map("event_id")

@@ -47,6 +47,9 @@ class EventArtistRepository {
         event: {
           id: id
         }
+      },
+      orderBy:{
+        dh_action: "desc"
       }
     });
 
@@ -59,6 +62,9 @@ class EventArtistRepository {
         artist: {
           id: id
         }
+      },
+      orderBy:{
+        dh_action: "desc"
       }
     });
 
