@@ -55,7 +55,8 @@ class CandidaturasController {
       throw new AppError("Candidatura não encontrada", 404);
     }
 
-    const candidatura = await event_artistsRepository.update(id, { artist, event, accept, dh_action });
+    let date = new Date();
+    const candidatura = await event_artistsRepository.update(id, { artist, event, accept, dh_action: date });
 
     return response.json(candidatura);
   }
