@@ -4,3 +4,10 @@ node_modules
 
 prisma/migrations
 prisma/database/dev.db
+
+Artist-Images/*.jpg
+Artist-Images/*.png
+Artist-Images/*.jpeg
+Artist-Images/*.PNG
+Artist-Images/*.JPG
+Artist-Images/*.JPEG
