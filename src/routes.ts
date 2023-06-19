@@ -39,6 +39,8 @@ router.get("/user/:id", userController.findById);
 router.put("/user/:id", userController.update);
 router.delete("/user/:id", userController.delete);
 
+//Foto
+router.post("/foto", multer(multerConfiguration).array("foto"), userController.updateImg);
 
 //Event
 router.post("/event", eventController.create);

@@ -107,6 +107,19 @@ class UserRepository {
     return stored;
   }
 
+  async updateFoto(id: string, path: string) {
+    const stored = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        profile_image: path
+      },
+    });
+
+    return stored;
+  }
+
   async delete(id: string) {
     const stored = await prisma.user.delete({
       where: {

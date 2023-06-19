@@ -4,6 +4,8 @@ import userRepository from "../repositories/user.repository";
 import userCategoriesRepository from "../repositories/user_categories.repository";
 import addressRepository from "../repositories/address.repository";
 import { generateToken } from '../utils/jsonwebtoken.util'
+import mediaRepository from "../repositories/media.repository";
+import path from "path";
 
 
 class UserController {
@@ -159,6 +161,28 @@ class UserController {
           user: user
         })
       });
+    }
+
+    return response.json(user);
+  }
+
+  async updateImg(request: Request, response: Response) {
+    const { id } = request.body;
+
+    const foto = request.files as Express.Multer.File[];
+
+    const user = await userRepository.findById(id);
+
+    if (!user) {
+      throw new AppError("Usuario não encontrado", 404);
+    }
+
+    for (const file of foto) {
+      const med = await mediaRepository.createFoto({
+        name: file.filename,
+        path: file.path
+      });
+      userRepository.updateFoto(id, med.name);
     }
 
     return response.json(user);

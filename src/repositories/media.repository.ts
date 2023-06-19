@@ -10,7 +10,7 @@ interface FindAllProps {
   search?: string;
 }
 
-class CategoriesRepository {
+class MediaRepository {
   async create(media: MediaProps) {
     const stored = await prisma.media.create({
       data: {
@@ -21,6 +21,17 @@ class CategoriesRepository {
             id: media.post
           }
         }
+      },
+    });
+
+    return stored;
+  } 
+
+  async createFoto(media: MediaProps) {
+    const stored = await prisma.media.create({
+      data: {
+        name: media.name,
+        path: media.path
       },
     });
 
@@ -72,4 +83,4 @@ class CategoriesRepository {
   }
 }
 
-export default new CategoriesRepository();
+export default new MediaRepository();
