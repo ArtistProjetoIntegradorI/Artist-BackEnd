@@ -34,8 +34,8 @@ class EventArtistRepository {
     const candidatura = await prisma.event_Artist.findFirst({
       where: {
         artistId: artist,
-        eventId: event
-      },
+        eventId: event,
+      }
     });
 
     return candidatura;
@@ -48,7 +48,7 @@ class EventArtistRepository {
           id: id
         }
       },
-      orderBy:{
+      orderBy: {
         dh_action: "desc"
       }
     });
@@ -63,8 +63,11 @@ class EventArtistRepository {
           id: id
         }
       },
-      orderBy:{
+      orderBy: {
         dh_action: "desc"
+      },
+      include: {
+        event: true
       }
     });
 
