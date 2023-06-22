@@ -53,23 +53,10 @@ class PostRepository {
       where: {
         OR: [
           { description: { contains: search } },
-          {
-            user: {
-              name: { contains: search }
-            }
-          },
-          {
-            event: {
-              name: { contains: search }
-            }
-          },
+          { user: { name: { contains: search } } },
+          { event: { name: { contains: search } } },
           { user: { categories: { some: { category: { name: { contains: search } } } } } },
-          { event: { category: { some: { category: { name: { contains: search } } } } } },
-          {
-            event: {
-              address: { city: search }
-            }
-          }
+          { event: { category: { some: { category: { name: { contains: search } } } } } }
         ]
 
       },
