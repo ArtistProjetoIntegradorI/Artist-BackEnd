@@ -63,6 +63,8 @@ class PostRepository {
               name: { contains: search }
             }
           },
+          { user: { categories: { some: { category: { name: { contains: search } } } } } },
+          { event: { category: { some: { category: { name: { contains: search } } } } } },
           {
             event: {
               address: { city: search }
