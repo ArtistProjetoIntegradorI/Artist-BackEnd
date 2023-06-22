@@ -47,6 +47,8 @@ class PostController {
   async findAll(request: Request, response: Response) {
     const { search } = request.query;
 
+    console.log(search)
+
     const posts = await postRepository.findAll({ search: search ? String(search) : undefined });
 
     for (const post of posts) {

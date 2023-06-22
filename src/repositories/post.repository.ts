@@ -1,3 +1,4 @@
+import { serialize } from "v8";
 import { prisma } from "../infra/prisma/connection";
 
 interface postProps {
@@ -16,13 +17,13 @@ class PostRepository {
     const stored = await prisma.post.create({
       data: {
         description: post.description,
-        user : {
-          connect :{
+        user: {
+          connect: {
             id: post.userOwnerId
           }
         },
-        event : {
-          connect :{
+        event: {
+          connect: {
             id: post.eventId
           }
         }
@@ -36,8 +37,8 @@ class PostRepository {
     const stored = await prisma.post.create({
       data: {
         description: post.description,
-        user : {
-          connect :{
+        user: {
+          connect: {
             id: post.userOwnerId
           }
         }
@@ -50,27 +51,43 @@ class PostRepository {
   async findAll({ search }: FindAllProps) {
     const posts = await prisma.post.findMany({
       where: {
-        description: {
-          contains: search,
-        }
+        OR: [
+          { description: { contains: search } },
+          {
+            user: {
+              name: { contains: search }
+            }
+          },
+          {
+            event: {
+              name: { contains: search }
+            }
+          },
+          {
+            event: {
+              address: { city: search }
+            }
+          }
+        ]
+
       },
-      include:{
-        event:{
+      include: {
+        event: {
           include: {
-            address:true,
-            category:{
-              include:{
-                category:true
+            address: true,
+            category: {
+              include: {
+                category: true
               }
             }
           }
         },
-        medias:true,
-        user:{
-          include:{
-            categories:{
-              include:{
-                category:true
+        medias: true,
+        user: {
+          include: {
+            categories: {
+              include: {
+                category: true
               }
             },
             ratingsReceived: {
@@ -81,7 +98,7 @@ class PostRepository {
           }
         }
       },
-      orderBy:{
+      orderBy: {
         dh_edit: 'desc'
       }
     });
@@ -94,14 +111,14 @@ class PostRepository {
       where: {
         id,
       },
-      include:{
-        event:true,
-        medias:true,
-        user:{
-          include:{
-            categories:{
-              include:{
-                category:true
+      include: {
+        event: true,
+        medias: true,
+        user: {
+          include: {
+            categories: {
+              include: {
+                category: true
               }
             },
             ratingsReceived: {
@@ -111,7 +128,7 @@ class PostRepository {
             },
           }
         }
-      } 
+      }
     });
 
     return post;
@@ -120,27 +137,27 @@ class PostRepository {
   async findByUser(id: string) {
     const post = await prisma.post.findMany({
       where: {
-       user: {
-        id: id
-       }
+        user: {
+          id: id
+        }
       },
-      include:{
-        event:{
+      include: {
+        event: {
           include: {
-            address:true,
-            category:{
-              include:{
-                category:true
+            address: true,
+            category: {
+              include: {
+                category: true
               }
             }
           }
         },
-        medias:true,
-        user:{
-          include:{
-            categories:{
-              include:{
-                category:true
+        medias: true,
+        user: {
+          include: {
+            categories: {
+              include: {
+                category: true
               }
             },
             ratingsReceived: {
@@ -151,7 +168,7 @@ class PostRepository {
           }
         }
       },
-      orderBy:{
+      orderBy: {
         dh_create: 'desc'
       }
     });
